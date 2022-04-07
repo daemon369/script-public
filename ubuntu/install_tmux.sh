@@ -2,9 +2,11 @@
 
 VERSION="2.3a"
 
+installed=true
+command -v tmux &> /dev/null || installed=false
+echo "installed=$installed"
 temp=`tmux -V`
 
-installed=false
 mapfile -td \  fields < <(printf "%s\0" "$temp")
 fields_len=${#fields[@]}
 
