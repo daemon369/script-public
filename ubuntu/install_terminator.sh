@@ -1,6 +1,23 @@
 #!/bin/bash
 
 VERSION="2.1.1"
+MD5="a22e65eae47b34ccd42055725573bbb9"
+DIR_NAME="terminator-$VERSION"
+TAR_FILE_NAME="$DIR_NAME.tar.gz"
+DOWNLOAD_URL="https://github.com/gnome-terminator/terminator/releases/download/v$VERSION/$FILE_NAME"
+LOCAL_DIR_PREFIX="$HOME/bin"
+LOCAL_DIR_PATH="$LOCAL_DIR_PREFIX/$DIR_NAME"
+LOCAL_TAR_FILE_PATH="$LOCAL_DIR_PREFIX/$TAR_FILE_NAME"
+
+echo "$LOCAL_DIR_PATH"
+echo "$LOCAL_TAR_FILE_PATH"
+
+if [[ -f "$LOCAL_TAR_FILE_PATH" ]]; then
+    echo "file exists"
+    md5sum $LOCAL_TAR_FILE_PATH
+else
+    echo "file not exists"
+fi
 
 temp=`terminator --version`
 
@@ -27,9 +44,9 @@ else
     cd $HOME/bin
 
     # download & unzip
-    wget https://github.com/gnome-terminator/terminator/releases/download/v2.1.1/terminator-2.1.1.tar.gz
-    tar -zxvf terminator-2.1.1.tar.gz
-    cd terminator-2.1.1
+    wget $DOWNLOAD_URL
+    tar -zxvf $FILE_NAME
+    cd terminator-$VERSION
 
     # install dependencies
     sudo apt -y install python3-gi python3-gi-cairo python3-psutil python3-configobj gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11 python3-setuptools python3-pip
