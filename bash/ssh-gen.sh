@@ -1,7 +1,11 @@
 #!/bin/bash
 
 email=`git config user.email`
-echo "email=$email"
+
+if [ -z "$email" ]; then
+    echo "git configuration user.email is empty"
+    exit 1
+fi
 
 # generate ssh keys
 ssh-keygen -q -t ed25519 -b 4096 -C "$email" -f $HOME/.ssh/id_ed25519_for_github -N ""
