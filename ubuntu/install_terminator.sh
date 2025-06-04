@@ -1,16 +1,26 @@
 #!/bin/bash
 
-VERSION="2.1.1"
+VERSION=`wget -q -O - https://api.github.com/repos/gnome-terminator/terminator/releases/latest | jq -r '.tag_name'`
+echo VERSION=$VERSION
+
+if [ -z "$VERSION" ]; then
+    VERSION="2.1.5"
+else
+    VERSION=${VERSION#v}
+    echo VERSION=$VERSION
+fi
+
 MD5="a22e65eae47b34ccd42055725573bbb9"
 DIR_NAME="terminator-$VERSION"
 TAR_FILE_NAME="$DIR_NAME.tar.gz"
-DOWNLOAD_URL="https://github.com/gnome-terminator/terminator/releases/download/v$VERSION/$FILE_NAME"
+DOWNLOAD_URL="https://github.com/gnome-terminator/terminator/releases/download/v$VERSION/$TAR_FILE_NAME"
 LOCAL_DIR_PREFIX="$HOME/bin"
 LOCAL_DIR_PATH="$LOCAL_DIR_PREFIX/$DIR_NAME"
 LOCAL_TAR_FILE_PATH="$LOCAL_DIR_PREFIX/$TAR_FILE_NAME"
 
 echo "$LOCAL_DIR_PATH"
 echo "$LOCAL_TAR_FILE_PATH"
+
 
 if [[ -f "$LOCAL_TAR_FILE_PATH" ]]; then
     echo "file exists"
@@ -45,7 +55,7 @@ else
 
     # download & unzip
     wget $DOWNLOAD_URL
-    tar -zxvf $FILE_NAME
+    tar -zxvf $TAR_FILE_NAME
     cd terminator-$VERSION
 
     # install dependencies
